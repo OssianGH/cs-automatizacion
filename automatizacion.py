@@ -360,6 +360,6 @@ validar_entero(registros, 16)
 validar_si_no(registros, 19)
 
 cursor = conectar_pyodbc(
-    "{DRIVER}", r"SERVER", "BASE_DATOS", "USUARIO", "CONTRASEÑA"
+    "{DRIVER}", "SERVER", "BASE_DATOS", "USUARIO", "CONTRASEÑA"
 )
 migrar(cursor, registros)
