@@ -69,7 +69,7 @@ def validar_numero_campos(registros: list[list[str]], n_campos: int):
 
 def validar_fecha(registros: list[list[str]], campo: int):
     """Comprueba si el número en el `campo` en cada registro en
-    `registros` cumple el formato de fecha 'AAAAMMDD'.
+    `registros` cumple el formato de fecha 'aaaammdd'.
     """
     for i, registro in enumerate(registros):
         valor = registro[campo - 1]
