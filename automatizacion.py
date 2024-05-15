@@ -9,7 +9,6 @@ YEAR_MAX = 2100
 FIELD_COUNT = 19
 FILE = r".\automatizacion\test.csv"
 
-
 def leer_archivo(archivo: str):
     """Abre el archivo CSV en la ruta `archivo`, lee y lo convierte
     a una lista de listas de strings donde cada fila es un registro
@@ -320,13 +319,13 @@ def biciesto(year):
     return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
 
 
-def conectar_pyodbc(driver, server, base_datos, usr, pwd):
+def conectar_pyodbc(driver, server, base_datos, uid, pwd):
     """Realiza una conexión SQL con los parametros
     dados y devuelve el cursor de la conexión.
     """
 
     conexion = pyodbc.connect(
-        f"DRIVER={driver};SERVER={server};DATABASE={base_datos};USR={usr};PWD={pwd};"
+        f"DRIVER={driver};SERVER={server};DATABASE={base_datos};UID={uid};PWD={pwd};"
     )
 
     return conexion.cursor()
@@ -360,6 +359,6 @@ validar_entero(registros, 16)
 validar_si_no(registros, 19)
 
 cursor = conectar_pyodbc(
-    "DRIVER", "SERVER", "BASE_DATOS", "USUARIO", "CONTRASEÑA"
+    "{DRIVER}", "SERVER", "BASE_DATOS", "USUARIO", "CONTRASEÑA"
 )
 migrar(cursor, registros)
