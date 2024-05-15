@@ -3,11 +3,33 @@ import csv
 import pandas as pd
 import pyodbc
 from os.path import isfile
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
 
 YEAR_MIN = 1900
 YEAR_MAX = 2100
 FIELD_COUNT = 19
-FILE = r".\automatizacion\test.csv"
+
+
+def solicitar_archivo():
+    """Solicita al usuario la selección de un archivo CSV o Excel.
+    Devuelve el path al archivo seleccionado o si no se selecciona
+    un archivo, termina la ejecución.
+    """
+    Tk().withdraw()
+
+    archivo = askopenfilename(
+        title="Seleccione el archivo para validar y cargar",
+        filetypes=(
+            ("Archivos CSV y Excel", "*.csv *.xlsx"),
+            ("Todos los archivos", "*.*"),
+        ),
+    )
+
+    if archivo is None or archivo == "":
+        sys.exit(33)
+
+    return archivo
 
 
 def leer_archivo(archivo: str):
@@ -338,14 +360,19 @@ def migrar(cursor, registros):
     """
 
     cursor.executemany(
-        "INSERT INTO SCHEMA.TABLE VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO ESQUEMA.TABLA VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
         registros,
     )
     cursor.commit()
 
 
-registros = leer_archivo(FILE)
+archivo = solicitar_archivo()
+print(archivo)
 
+print("Leyendo...")
+registros = leer_archivo(archivo)
+
+print("Validando...")
 validar_numero_campos(registros, FIELD_COUNT)
 validar_fecha(registros, 1)
 validar_entero(registros, 2)
@@ -359,7 +386,10 @@ validar_flotante(registros, 15)
 validar_entero(registros, 16)
 validar_si_no(registros, 19)
 
+print("Cargando...")
 cursor = conectar_pyodbc(
     "{DRIVER}", "SERVER", "BASE_DATOS", "USUARIO", "CONTRASEÑA"
 )
 migrar(cursor, registros)
+
+print("Carga finalizada.")
