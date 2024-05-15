@@ -326,7 +326,7 @@ def conectar_pyodbc(driver, server, base_datos, uid, pwd):
     """
 
     conexion = pyodbc.connect(
-        f"DRIVER={driver};SERVER={server};DATABASE={base_datos};UID={uid};PWD={pwd};"
+        f"DRIVER={driver};SYSTEM={server};DATABASE={base_datos};UID={uid};PWD={pwd};"
     )
 
     return conexion.cursor()
