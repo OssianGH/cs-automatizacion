@@ -9,6 +9,7 @@ YEAR_MAX = 2100
 FIELD_COUNT = 19
 FILE = r".\automatizacion\test.csv"
 
+
 def leer_archivo(archivo: str):
     """Abre el archivo CSV en la ruta `archivo`, lee y lo convierte
     a una lista de listas de strings donde cada fila es un registro
